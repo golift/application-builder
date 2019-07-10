@@ -3,7 +3,7 @@
 #
 
 # Suck in our application information.
-IGNORE := $(shell bash -c "source .metadata.sh ; env | sed 's/=/:=/;s/^/export /' > .metadata.make")
+IGNORED:=$(shell bash -c "source .metadata.sh ; env | sed 's/=/:=/;s/^/export /' > .metadata.make")
 
 # md2roff turns markdown into man files and html files.
 MD2ROFF_BIN=github.com/github/hub/md2roff-bin
@@ -18,6 +18,11 @@ else
 	include .metadata.make
 	VERSION:=$(_VERSION)
 	ITERATION:=$(_ITERATION)
+endif
+
+BUILD_SCRIPTS=
+ifeq($(FORMULA),service)
+		BUILD_SCRIPTS=--after-install scripts/after-install.sh --before-remove scripts/before-remove.sh
 endif
 
 # rpm is wierd and changes - to _ in versions.
@@ -111,14 +116,12 @@ linux_packages: rpm deb rpm386 deb386 debarm rpmarm debarmhf rpmarmhf
 rpm: $(BINARY)-$(RPMVERSION)-$(ITERATION).x86_64.rpm
 $(BINARY)-$(RPMVERSION)-$(ITERATION).x86_64.rpm: package_build_linux check_fpm
 	@echo "Building 'rpm' package for $(BINARY) version '$(RPMVERSION)-$(ITERATION)'."
-	fpm -s dir -t rpm \
+	fpm -s dir -t rpm $(BUILD_SCRIPTS) \
 		--architecture x86_64 \
 		--name $(BINARY) \
 		--rpm-os linux \
 		--version $(RPMVERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
@@ -130,14 +133,12 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).x86_64.rpm: package_build_linux check_fpm
 deb: $(BINARY)_$(VERSION)-$(ITERATION)_amd64.deb
 $(BINARY)_$(VERSION)-$(ITERATION)_amd64.deb: package_build_linux check_fpm
 	@echo "Building 'deb' package for $(BINARY) version '$(VERSION)-$(ITERATION)'."
-	fpm -s dir -t deb \
+	fpm -s dir -t deb $(BUILD_SCRIPTS) \
 		--architecture amd64 \
 		--name $(BINARY) \
 		--deb-no-default-config-files \
 		--version $(VERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
@@ -149,14 +150,12 @@ $(BINARY)_$(VERSION)-$(ITERATION)_amd64.deb: package_build_linux check_fpm
 rpm386: $(BINARY)-$(RPMVERSION)-$(ITERATION).i386.rpm
 $(BINARY)-$(RPMVERSION)-$(ITERATION).i386.rpm: package_build_linux_386 check_fpm
 	@echo "Building 32-bit 'rpm' package for $(BINARY) version '$(RPMVERSION)-$(ITERATION)'."
-	fpm -s dir -t rpm \
+	fpm -s dir -t rpm $(BUILD_SCRIPTS) \
 		--architecture i386 \
 		--name $(BINARY) \
 		--rpm-os linux \
 		--version $(RPMVERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
@@ -168,14 +167,12 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).i386.rpm: package_build_linux_386 check_fpm
 deb386: $(BINARY)_$(VERSION)-$(ITERATION)_i386.deb
 $(BINARY)_$(VERSION)-$(ITERATION)_i386.deb: package_build_linux_386 check_fpm
 	@echo "Building 32-bit 'deb' package for $(BINARY) version '$(VERSION)-$(ITERATION)'."
-	fpm -s dir -t deb \
+	fpm -s dir -t deb $(BUILD_SCRIPTS) \
 		--architecture i386 \
 		--name $(BINARY) \
 		--deb-no-default-config-files \
 		--version $(VERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
@@ -187,14 +184,12 @@ $(BINARY)_$(VERSION)-$(ITERATION)_i386.deb: package_build_linux_386 check_fpm
 rpmarm: $(BINARY)-$(RPMVERSION)-$(ITERATION).arm64.rpm
 $(BINARY)-$(RPMVERSION)-$(ITERATION).arm64.rpm: package_build_linux_arm64 check_fpm
 	@echo "Building 64-bit ARM8 'rpm' package for $(BINARY) version '$(RPMVERSION)-$(ITERATION)'."
-	fpm -s dir -t rpm \
+	fpm -s dir -t rpm $(BUILD_SCRIPTS) \
 		--architecture arm64 \
 		--name $(BINARY) \
 		--rpm-os linux \
 		--version $(RPMVERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
@@ -206,14 +201,12 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).arm64.rpm: package_build_linux_arm64 check_
 debarm: $(BINARY)_$(VERSION)-$(ITERATION)_arm64.deb
 $(BINARY)_$(VERSION)-$(ITERATION)_arm64.deb: package_build_linux_arm64 check_fpm
 	@echo "Building 64-bit ARM8 'deb' package for $(BINARY) version '$(VERSION)-$(ITERATION)'."
-	fpm -s dir -t deb \
+	fpm -s dir -t deb $(BUILD_SCRIPTS) \
 		--architecture arm64 \
 		--name $(BINARY) \
 		--deb-no-default-config-files \
 		--version $(VERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
@@ -225,14 +218,12 @@ $(BINARY)_$(VERSION)-$(ITERATION)_arm64.deb: package_build_linux_arm64 check_fpm
 rpmarmhf: $(BINARY)-$(RPMVERSION)-$(ITERATION).armhf.rpm
 $(BINARY)-$(RPMVERSION)-$(ITERATION).armhf.rpm: package_build_linux_armhf check_fpm
 	@echo "Building 32-bit ARM6/7 HF 'rpm' package for $(BINARY) version '$(RPMVERSION)-$(ITERATION)'."
-	fpm -s dir -t rpm \
+	fpm -s dir -t rpm $(BUILD_SCRIPTS) \
 		--architecture armhf \
 		--name $(BINARY) \
 		--rpm-os linux \
 		--version $(RPMVERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
@@ -244,14 +235,12 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).armhf.rpm: package_build_linux_armhf check_
 debarmhf: $(BINARY)_$(VERSION)-$(ITERATION)_armhf.deb
 $(BINARY)_$(VERSION)-$(ITERATION)_armhf.deb: package_build_linux_armhf check_fpm
 	@echo "Building 32-bit ARM6/7 HF 'deb' package for $(BINARY) version '$(VERSION)-$(ITERATION)'."
-	fpm -s dir -t deb \
+	fpm -s dir -t deb $(BUILD_SCRIPTS) \
 		--architecture armhf \
 		--name $(BINARY) \
 		--deb-no-default-config-files \
 		--version $(VERSION) \
 		--iteration $(ITERATION) \
-		--after-install scripts/after-install.sh \
-		--before-remove scripts/before-remove.sh \
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \

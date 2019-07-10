@@ -2,6 +2,7 @@
 
 # This file is used by rpm and deb packages. FPM use.
 # Edit this file as needed for your application.
+# This file is only installed if FORMULA is set to service.
 
 if [ "$1" = "upgrade" ] || [ "$1" = "1" ] ; then
   exit 0

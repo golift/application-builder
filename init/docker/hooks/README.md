@@ -1,13 +1,14 @@
 # Docker Build Hooks
 
 The files in this folder are used by Docker Cloud to automate image builds.
+Do not edit these files.
 
 If you want to build, maintain and push multi-architecture Docker images, you may
 follow the example provided here. All of the hooks are generic, and will work with
 any build. Two environment variables must be passed in from Docker Cloud config.
 
 1.  `BUILDS` must be set to the builds you're trying to perform. This repo is currently set to:
-    -  `linux:armhf:arm: linux:arm64:arm64:armv8 linux:amd64:amd64: linux:i386:386:`
+    -   `linux:armhf:arm: linux:arm64:arm64:armv8 linux:amd64:amd64: linux:i386:386:`
     -   The format is `os:name:arch:variant`.
     -   `os` and `name` are passed into the Dockerfile.
     -   `os`, `arch` and `variant` are passed into `docker manifest annotate`.
