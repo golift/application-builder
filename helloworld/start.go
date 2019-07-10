@@ -37,6 +37,9 @@ type HelloWorld struct {
 // Version is injected at build.
 var Version = "development"
 
+// Binary is the app name.
+var Binary = "hello-world"
+
 const (
 	defaultConfFile = "/etc/hello-world/helloworld.conf"
 	defaultWorlds   = 2
@@ -49,7 +52,7 @@ func Start() error {
 	log.SetFlags(log.LstdFlags)
 	hw := &HelloWorld{Config: &Config{}, Flags: &Flags{}}
 	if hw.ParseFlags(os.Args[1:]); hw.VersionReq {
-		fmt.Printf("hello-world v%s\n", Version)
+		fmt.Printf("%s v%s\n", Binary, Version)
 		return nil // don't run anything else w/ version request.
 	}
 	if err := hw.GetConfig(); err != nil {
@@ -61,9 +64,9 @@ func Start() error {
 
 // ParseFlags runs the parser for CLI arguments.
 func (u *HelloWorld) ParseFlags(args []string) {
-	u.Flag = flag.NewFlagSet("hello-world", flag.ExitOnError)
+	u.Flag = flag.NewFlagSet(Binary, flag.ExitOnError)
 	u.Flag.Usage = func() {
-		fmt.Println("Usage: hello-world [--config=filepath] [--version]")
+		fmt.Printf("Usage: %s [--config=filepath] [--version]", Binary)
 		u.Flag.PrintDefaults()
 	}
 	u.Flag.StringVarP(&u.ConfigFile, "config", "c", defaultConfFile, "Config File (TOML Format)")
