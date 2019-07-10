@@ -30,6 +30,7 @@ install:
 before_script:
   - source .metadata.sh
 script:
+  - make test
   - make docker
   # Test built docker image.
   - docker run $DHUSER/$BINARY:local -v 2>&1 | grep -Eq "$BINARY v$VERSION"
