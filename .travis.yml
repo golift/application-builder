@@ -2,6 +2,7 @@ language: go
 git:
   depth: false
 # If your repo name is different than the binary name, you may need to set this.
+# Either set this, or change the $GHPATH variable in .metadata.sh.
 go_import_path: github.com/golift/hello-world
 addons:
   apt:
@@ -44,7 +45,7 @@ after_success:
     mkdir -p $HOME/.ssh
     declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/XXXXX)"
     echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> $HOME/.ssh/config
-    # Get deploy key for golift/homebrew-mugs.
+    # Create your own deploy key and encrypt the file to make this work.
     openssl aes-256-cbc -K $encrypted_7b76bb9bd599_key -iv $encrypted_7b76bb9bd599_iv -in .github_deploy_key.enc -out "$SSH_FILE" -d
     chmod 600 "$SSH_FILE" \
       && printf "%s\n" \
@@ -55,6 +56,8 @@ after_success:
 deploy:
   - provider: releases
     api_key:
+      # to get a secure api key, run: travis setup releases
+      # make a copy of this file first because that command will change it.
       secure: oU8JdcLvkm/2H22+0PVpo/c1CXLQKaTmaxFh2OGEjEh2tgVCOyWjaSZv5eNv+WgfdPscjK8WQGIWs7UGcgasdvSuZfSrGgO/NOpq8enhfGQs0TsA4iNw0SJrUdjtFRgjYak2ANig43u3ibXzzWABgr/Eu4NuZXyfdyVt/8ouxu41umDNyLrUJRccT5PxKBHWbDFurCdBYyqw++U17lwoJFM4qIQubT/zsRBFikHQe1wBN958VL+7Cj53kZwjaA1Oy7Ode0O1VRzUDNNFTe0sGGpJ6aS/FwkklBL5q4iLz1mY3JBn3AhpTAHjvh3TmXtz1pfXKe5eZWgPq+TciQcVmPw/iGLVWIiKfWlIGFkTTKlNz3X54SdLpWKZaUcW+3snTBlmdmvbJvnAA5ZOlUKcDRCXh81B7LisQht97NxbPjZtw58N3DVzowYtks25BZ+8LgAjLea1OeJ453J/xz+5mHEf891R7uIv0P+Skm9bn3mfCOMMZ4q/VMJipylRQjB5OfOxOWofE1Go2lDXiM4PgcxA6pTL3Iedk/IyLsQo1BpE7fFg5k842VH7ioFnP/HAmMS41ppG4pkmWwHyUm+NweB/IXUr7A+pMIsA3pGAmRPrrWH87LVn7Oj52PoRrCEiFzoQYK6+bEN0yaoX8krnqvYA0SXC1zqm4RVus/gMs2E=
     overwrite: true
     skip_cleanup: true
