@@ -16,6 +16,7 @@ git clone git@github.com:${HBREPO}.git homebrew_release_repo
 
 cp ${BINARY}.rb homebrew_release_repo/Formula
 pushd homebrew_release_repo
-git commit -m "Update ${BINARY} on Release: v${VERSION}-${ITERATION}" Formula/${BINARY}.rb
+git add Formula/${BINARY}.rb
+git commit -m "Update ${BINARY} on Release: v${VERSION}-${ITERATION}"
 git push
 popd

@@ -1,12 +1,10 @@
 # Each line must have an export clause.
 # This file is parsed and sourced by the Makefile, Docker and Homebrew builds.
 
-# Must match the repo name.
+# Must match the repo name to make things easy. Otherwise, fix some other paths.
 BINARY="hello-world"
 # github username
 GHUSER="golift"
-# docker hub username
-DHUSER="golift"
 # Github repo containing homebrew formula repo.
 HBREPO="golift/homebrew-mugs"
 MAINT="David Newhall II <david at sleepers dot pro>"
@@ -20,7 +18,7 @@ LICENSE="MIT"
 # This affects the homebrew formula (launchd) and linux packages (systemd).
 FORMULA="service"
 
-export BINARY GHUSER DHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LICENSE FORMULA
+export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LICENSE FORMULA
 
 # The rest is mostly automatic.
 # Fix the repo if it doesn't match the binary name.
