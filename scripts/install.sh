@@ -9,6 +9,7 @@
 # If you're on redhat, this installs the latest rpm. If you're on Debian, it installs the latest deb package.
 #
 
+# Set the repo name correctly.
 REPO=golift/application-builder
 LATEST=https://api.github.com/repos/${REPO}/releases/latest
 ARCH=$(uname -m)

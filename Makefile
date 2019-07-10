@@ -42,7 +42,7 @@ release: clean macos arm windows linux_packages
 clean:
 	# Cleaning up.
 	rm -f $(BINARY) $(BINARY).*.{macos,linux,exe}{,.gz,.zip} $(BINARY).1{,.gz} $(BINARY).rb
-	rm -f $(BINARY){_,-}*.{deb,rpm} v*.tar.gz.sha256 .metadata.make
+	rm -f $(BINARY){_,-}*.{deb,rpm} v*.tar.gz.sha256 examples/MANUAL .metadata.make
 	rm -f cmd/$(BINARY)/README{,.html} README{,.html} ./$(BINARY)_manual.html
 	rm -rf package_build_* release
 

@@ -2,6 +2,7 @@
 
 # This file is used by deb and rpm packages.
 # FPM adds this as the after-install script.
+# Edit this file as needed for your application.
 
 if [ -x "/bin/systemctl" ]; then
   # Reload and restart - this starts the application as user nobody.
