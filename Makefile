@@ -122,6 +122,7 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).x86_64.rpm: package_build_linux check_fpm
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -140,6 +141,7 @@ $(BINARY)_$(VERSION)-$(ITERATION)_amd64.deb: package_build_linux check_fpm
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -158,6 +160,7 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).i386.rpm: package_build_linux_386 check_fpm
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -176,6 +179,7 @@ $(BINARY)_$(VERSION)-$(ITERATION)_i386.deb: package_build_linux_386 check_fpm
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -194,6 +198,7 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).arm64.rpm: package_build_linux_arm64 check_
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -212,6 +217,7 @@ $(BINARY)_$(VERSION)-$(ITERATION)_arm64.deb: package_build_linux_arm64 check_fpm
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -230,6 +236,7 @@ $(BINARY)-$(RPMVERSION)-$(ITERATION).armhf.rpm: package_build_linux_armhf check_
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -248,6 +255,7 @@ $(BINARY)_$(VERSION)-$(ITERATION)_armhf.deb: package_build_linux_armhf check_fpm
 		--license $(LICENSE) \
 		--url $(URL) \
 		--maintainer "$(MAINT)" \
+		--vendor "$(VENDOR)" \
 		--description "$(DESC)" \
 		--config-files "/etc/$(BINARY)/$(CONFIG_FILE)" \
 		--chdir $<
@@ -277,8 +285,8 @@ package_build_linux: readme man linux
 	cp examples/$(CONFIG_FILE).example $@/etc/$(BINARY)/
 	cp examples/$(CONFIG_FILE).example $@/etc/$(BINARY)/$(CONFIG_FILE)
 	cp LICENSE *.html examples/*?.?* $@/usr/share/doc/$(BINARY)/
-	[ ! -f init/systemd/template.unit.service ] || mkdir -p $@/lib/systemd/system
-	[ ! -f init/systemd/template.unit.service ] || \
+	[ "$FORMULA" != "service" ] || mkdir -p $@/lib/systemd/system
+	[ "$FORMULA" != "service" ] || \
 		sed -e "s/{{BINARY}}/$(BINARY)/g" -e "s/{{DESC}}/$(DESC)/g" \
 		init/systemd/template.unit.service > $@/lib/systemd/system/$(BINARY).service
 
@@ -317,7 +325,7 @@ $(BINARY).rb: v$(VERSION).tar.gz.sha256
 		-e "s%{{GHREPO}}%$(GHREPO)%g" \
 		-e "s%{{CONFIG_FILE}}%$(CONFIG_FILE)%g" \
 		-e "s%{{Class}}%$(shell echo $(BINARY) | perl -pe 's/(?:\b|-)(\p{Ll})/\u$$1/g')%g" \
-		init/homebrew/formula.rb.tmpl | tee $(BINARY).rb
+		init/homebrew/$(FORMULA).rb.tmpl | tee $(BINARY).rb
 
 # Extras
 
@@ -344,9 +352,9 @@ deps:
 install: man readme $(BINARY)
 	@echo -  Done Building!  -
 	@echo -  Local installation with the Makefile is only supported on macOS.
-	@echo If you wish to install the application manually on Linux, check out the wiki: $(URL)/wiki/Installation
+	@echo If you wish to install the application manually on Linux, check out the wiki: https://github.com/$(GHREPO)/wiki/Installation
 	@echo -  Otherwise, build and install a package: make rpm -or- make deb
-	@echo See the Package Install wiki for more info: $(URL)/wiki/Package-Install
+	@echo See the Package Install wiki for more info: https://github.com/$(GHREPO)/wiki/Package-Install
 	@[ "$(shell uname)" = "Darwin" ] || (echo "Unable to continue, not a Mac." && false)
 	@[ "$(PREFIX)" != "" ] || (echo "Unable to continue, PREFIX not set. Use: make install PREFIX=/usr/local ETC=/usr/local/etc" && false)
 	@[ "$(ETC)" != "" ] || (echo "Unable to continue, ETC not set. Use: make install PREFIX=/usr/local ETC=/usr/local/etc" && false)
@@ -357,20 +365,3 @@ install: man readme $(BINARY)
 	/usr/bin/install -m 0644 -cp examples/$(CONFIG_FILE).example $(ETC)/$(BINARY)/
 	[ -f $(ETC)/$(BINARY)/$(CONFIG_FILE) ] || /usr/bin/install -m 0644 -cp  examples/$(CONFIG_FILE).example $(ETC)/$(BINARY)/$(CONFIG_FILE)
 	/usr/bin/install -m 0644 -cp LICENSE *.html examples/* $(PREFIX)/share/doc/$(BINARY)/
-
-# If you installed with `make install` run `make uninstall` before installing a binary package. (even on Linux!!!)
-# This will remove the package install from macOS, it will not remove a package install from Linux.
-uninstall:
-	@echo "  ==> You must run make uninstall as root on Linux. Recommend not running as root on macOS."
-	[ -x /bin/systemctl ] && /bin/systemctl disable $(BINARY) || true
-	[ -x /bin/systemctl ] && /bin/systemctl stop $(BINARY) || true
-	[ -x /bin/launchctl ] && [ -f ~/Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist ] \
-		&& /bin/launchctl unload ~/Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist || true
-	[ -x /bin/launchctl ] && [ -f /Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist ] \
-		&& /bin/launchctl unload /Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist || true
-	rm -rf /usr/local/{etc,bin,share/doc}/$(BINARY)
-	rm -f ~/Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist
-	rm -f /Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist || true
-	rm -f /etc/systemd/system/$(BINARY).service /usr/local/share/man/man1/$(BINARY).1.gz
-	[ -x /bin/systemctl ] && /bin/systemctl --system daemon-reload || true
-	@[ -f /Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist ] && echo "  ==> Unload and delete this file manually:" && echo "  sudo launchctl unload /Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist" && echo "  sudo rm -f /Library/LaunchAgents/com.github.$(GHUSER).$(BINARY).plist" || true
