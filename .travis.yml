@@ -1,6 +1,8 @@
 language: go
 git:
   depth: false
+# If your repo name is different than the binary name, you may need to set this.
+go_import_path: github.com/golift/hello-world
 addons:
   apt:
     packages:
