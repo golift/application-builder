@@ -20,6 +20,9 @@ else
 	ITERATION:=$(_ITERATION)
 endif
 
+# rpm is wierd and changes - to _ in versions.
+RPMVERSION:=$(shell echo $(VERSION) | tr -- - _)
+
 PACKAGE_SCRIPTS=
 ifeq ($(FORMULA),service)
 	PACKAGE_SCRIPTS=--after-install scripts/after-install.sh --before-remove scripts/before-remove.sh
@@ -38,9 +41,6 @@ $(PACKAGE_SCRIPTS) \
 --description "$(DESC)" \
 --config-files "/etc/$(BINARY)/$(CONFIG_FILE)"
 endef
-
-# rpm is wierd and changes - to _ in versions.
-RPMVERSION:=$(shell echo $(VERSION) | tr -- - _)
 
 # Makefile targets follow.
 
@@ -192,8 +192,8 @@ package_build_linux: readme man linux
 	cp examples/$(CONFIG_FILE).example $@/etc/$(BINARY)/
 	cp examples/$(CONFIG_FILE).example $@/etc/$(BINARY)/$(CONFIG_FILE)
 	cp LICENSE *.html examples/*?.?* $@/usr/share/doc/$(BINARY)/
-	[ "$FORMULA" != "service" ] || mkdir -p $@/lib/systemd/system
-	[ "$FORMULA" != "service" ] || \
+	[ "$(FORMULA)" != "service" ] || mkdir -p $@/lib/systemd/system
+	[ "$(FORMULA)" != "service" ] || \
 		sed -e "s/{{BINARY}}/$(BINARY)/g" -e "s/{{DESC}}/$(DESC)/g" \
 		init/systemd/template.unit.service > $@/lib/systemd/system/$(BINARY).service
 
