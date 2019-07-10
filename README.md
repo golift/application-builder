@@ -2,4 +2,4 @@
 Go App Packaging Template for Debian, RedHat, Homebrew and Docker
 
 
-..coming soon.
+The bits are here, and the readme/howto is coming soon.
