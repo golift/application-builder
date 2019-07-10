@@ -23,8 +23,8 @@ type Flags struct {
 
 // Config defines our applications's config file parameters.
 type Config struct {
-	Worlds int
-	Hellos int
+	Worlds int `json:"worlds" xml:"worlds" toml:"worlds" yaml:"worlds"`
+	Hellos int `json:"hellos" xml:"hellos" toml:"hellos" yaml:"hellos"`
 }
 
 // HelloWorld is the main application struct.
@@ -39,6 +39,8 @@ var Version = "development"
 
 const (
 	defaultConfFile = "/etc/hello-world/helloworld.conf"
+	defaultWorlds   = 2
+	defaultHellos   = 1
 )
 
 // Start begins the application from a CLI.
@@ -57,7 +59,7 @@ func Start() error {
 	return hw.Run()
 }
 
-// ParseFlags runs the parser.
+// ParseFlags runs the parser for CLI arguments.
 func (u *HelloWorld) ParseFlags(args []string) {
 	u.Flag = flag.NewFlagSet("hello-world", flag.ExitOnError)
 	u.Flag.Usage = func() {
@@ -70,8 +72,13 @@ func (u *HelloWorld) ParseFlags(args []string) {
 }
 
 // GetConfig parses and returns our configuration data.
+// Supports any format for config file: xml, yaml, json, toml
 func (u *HelloWorld) GetConfig() error {
 	// Preload our defaults.
+	u.Config = &Config{
+		Hellos: defaultHellos,
+		Worlds: defaultWorlds,
+	}
 	log.Printf("Loading Configuration File: %s", u.ConfigFile)
 	switch buf, err := ioutil.ReadFile(u.ConfigFile); {
 	case err != nil:
