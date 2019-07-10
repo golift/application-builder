@@ -1,4 +1,8 @@
-/up.conf
+# In case you copy a config in locally.
+/hello-world.conf
+
+# These are all built by the Makefile.
+# Binaries, Packages, Formula, Manual
 /hello-world
 /hello-world*.gz
 /hello-world*.zip
@@ -10,10 +14,10 @@
 /hello-world.*.macos
 /hello-world.*.linux
 /hello-world.rb
+
+# Random things the Makefile creates.
 *.sha256
 /vendor
-.DS_Store
-*~
 /package_build_*
 /release
 MANUAL
@@ -23,3 +27,7 @@ README.html
 /hello-world_manual.html
 /homebrew_release_repo
 /.metadata.make
+
+# extra junk
+.DS_Store
+*~
