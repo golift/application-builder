@@ -167,21 +167,6 @@ $(BINARY)_$(VERSION)-$(ITERATION)_armhf.deb: package_build_linux_armhf check_fpm
 	@echo "Building 32-bit ARM6/7 HF 'deb' package for $(BINARY) version '$(VERSION)-$(ITERATION)'."
 	fpm -s dir -t deb $(PACKAGE_ARGS) -a armhf -v $(VERSION) -C $<
 
-docker:
-	docker build -f init/docker/Dockerfile \
-		--build-arg "BUILD_DATE=$(DATE)" \
-		--build-arg "COMMIT=$(COMMIT)" \
-		--build-arg "VERSION=$(VERSION)-$(ITERATION)" \
-		--build-arg "LICENSE=$(LICENSE)" \
-		--build-arg "DESC=$(DESC)" \
-		--build-arg "URL=$(URL)" \
-		--build-arg "VENDOR=$(VENDOR)" \
-		--build-arg "AUTHOR=$(MAINT)" \
-		--build-arg "BINARY=$(BINARY)" \
-		--build-arg "GHREPO=$(GHREPO)" \
-		--build-arg "CONFIG_FILE=$(CONFIG_FILE)" \
-		--tag $(BINARY) .
-
 # Build an environment that can be packaged for linux.
 package_build_linux: readme man linux
 	# Building package environment for linux.
@@ -214,6 +199,21 @@ package_build_linux_armhf: package_build_linux armhf
 
 check_fpm:
 	@fpm --version > /dev/null || (echo "FPM missing. Install FPM: https://fpm.readthedocs.io/en/latest/installing.html" && false)
+
+docker:
+	docker build -f init/docker/Dockerfile \
+		--build-arg "BUILD_DATE=$(DATE)" \
+		--build-arg "COMMIT=$(COMMIT)" \
+		--build-arg "VERSION=$(VERSION)-$(ITERATION)" \
+		--build-arg "LICENSE=$(LICENSE)" \
+		--build-arg "DESC=$(DESC)" \
+		--build-arg "URL=$(URL)" \
+		--build-arg "VENDOR=$(VENDOR)" \
+		--build-arg "AUTHOR=$(MAINT)" \
+		--build-arg "BINARY=$(BINARY)" \
+		--build-arg "GHREPO=$(GHREPO)" \
+		--build-arg "CONFIG_FILE=$(CONFIG_FILE)" \
+		--tag $(BINARY) .
 
 # This builds a Homebrew formula file that can be used to install this app from source.
 # The source used comes from the released version on GitHub. This will not work with local source.
