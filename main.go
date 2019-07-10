@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/golift/application-builder/helloworld"
+	// This path doesn't match the repo name. Use the correct name locally.
+	"github.com/golift/hello-world/helloworld"
 )
 
 // Keep it simple.
