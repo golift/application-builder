@@ -39,16 +39,17 @@ after_success:
   # Display Release Folder
   - ls -l release/
   - |
+      mkdir -p $HOME/.ssh
       declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/XXXXX)"
-      echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+      echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> $HOME/.ssh/config
       # Get deploy key for golift/homebrew-mugs.
-      openssl aes-256-cbc -K $encrypted_7b76bb9bd599_key -iv $encrypted_7b76bb9bd599_iv -in .github_deploy_key.enc -out "$SSH_FILE"-d
+      openssl aes-256-cbc -K $encrypted_7b76bb9bd599_key -iv $encrypted_7b76bb9bd599_iv -in .github_deploy_key.enc -out "$SSH_FILE" -d
       chmod 600 "$SSH_FILE" \
         && printf "%s\n" \
           "Host github.com" \
           "  IdentityFile $SSH_FILE" \
           "  StrictHostKeyChecking no" \
-          "  LogLevel ERROR" >> ~/.ssh/config
+          "  LogLevel ERROR" >> $HOME/.ssh/config
 deploy:
   - provider: releases
     api_key:
