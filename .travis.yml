@@ -28,6 +28,9 @@ install:
   - rvm install 2.0.0
   - rvm 2.0.0 do gem install --no-document fpm
 before_script:
+  # Create your own deploy key, tar it, and encrypt the file to make this work. Optionally add a bitly_token file to the archive.
+  - openssl aes-256-cbc -K $encrypted_e91cbdffc272_key -iv $encrypted_e91cbdffc272_iv -in .secret_files.tar.enc -out .secret_files.tar -d
+  - tar -xf .secret_files.tar
   - source .metadata.sh
   - make vendor
 script:
@@ -41,18 +44,20 @@ script:
 after_success:
   # Display Release Folder
   - ls -l release/
+  # Setup the ssh client so we can clone and push to the homebrew formula repo.
+  # You must put github_deploy_file into .secret_files.tar.enc
+  # This is an ssh key added to your homebrew forumla repo.
   - |
     mkdir -p $HOME/.ssh
     declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/XXXXX)"
     echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> $HOME/.ssh/config
-    # Create your own deploy key and encrypt the file to make this work.
-    openssl aes-256-cbc -K $encrypted_7b76bb9bd599_key -iv $encrypted_7b76bb9bd599_iv -in .github_deploy_key.enc -out "$SSH_FILE" -d
-    chmod 600 "$SSH_FILE" \
+    [ ! -f github_deploy_key ] || (mv github_deploy_key $SSH_FILE \
+      && chmod 600 "$SSH_FILE" \
       && printf "%s\n" \
         "Host github.com" \
         "  IdentityFile $SSH_FILE" \
         "  StrictHostKeyChecking no" \
-        "  LogLevel ERROR" >> $HOME/.ssh/config
+        "  LogLevel ERROR" >> $HOME/.ssh/config)
 deploy:
   - provider: releases
     api_key:
