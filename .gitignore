@@ -27,6 +27,9 @@ README.html
 /hello-world_manual.html
 /homebrew_release_repo
 /.metadata.make
+/.secret_files.tar
+/bitly_token
+/github_deploy_key
 
 # extra junk
 .DS_Store

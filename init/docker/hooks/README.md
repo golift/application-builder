@@ -1,4 +1,8 @@
-# Docker Build Hooks
+# Application Builder
+
+[https://github.com/golift/application-builder](https://github.com/golift/application-builder)
+
+## Docker Build Hooks
 
 The files in this folder are used by Docker Cloud to automate image builds.
 Do not edit these files.

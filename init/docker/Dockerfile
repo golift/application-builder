@@ -1,5 +1,6 @@
 #
-# building static go binary with Debian golang container
+# This is part of Application Builder.
+# https://github.com/golift/application-builder
 #
 
 ARG ARCH=amd64
