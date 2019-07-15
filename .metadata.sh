@@ -25,18 +25,17 @@ export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LIC
 # Fix the repo if it doesn't match the binary name.
 # Provide a better URL if one exists.
 
-GHREPO="${GHUSER}/${BINARY}"
 # Used as go import path in docker and homebrew builds.
-IMPORT_PATH="github.com/${GHREPO}"
-# Used for source links.
+IMPORT_PATH="github.com/${GHUSER}/${BINARY}"
+# Used for source links and wiki links.
 SOURCE_URL="https://${IMPORT_PATH}"
 # Used for documentation links.
-URL="https://github.com/${GHREPO}"
+URL="https://github.com/${GHUSER}/${BINARY}"
 
 # This parameter is passed in as -X to go build. Used to override the Version variable in a package.
 # This makes a path like github.com/user/hello-world/helloworld.Version=1.3.3
 # Name the Version-containing library the same as the github repo, without dashes.
-VERSION_PATH="github.com/${GHREPO}/$(echo ${BINARY} | tr -d -- -).Version"
+VERSION_PATH="${IMPORT_PATH}/$(echo ${BINARY} | tr -d -- -).Version"
 
 # Dynamic. Recommend not changing.
 VVERSION=$(git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1))
@@ -47,6 +46,6 @@ DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 COMMIT="$(git rev-parse --short HEAD || echo 0)"
 
 # Used by homebrew downloads.
-SOURCE_PATH=https://codeload.github.com/${GHREPO}/tar.gz/v${VERSION}
+SOURCE_PATH=https://codeload.${IMPORT_PATH}/tar.gz/v${VERSION}
 
-export GHREPO IMPORT_PATH SOURCE_URL URL VERSION_PATH VVERSION VERSION ITERATION DATE COMMIT SOURCE_PATH
+export IMPORT_PATH SOURCE_URL URL VERSION_PATH VVERSION VERSION ITERATION DATE COMMIT SOURCE_PATH

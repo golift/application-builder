@@ -262,9 +262,9 @@ deps:
 install: man readme $(BINARY)
 	@echo -  Done Building!  -
 	@echo -  Local installation with the Makefile is only supported on macOS.
-	@echo If you wish to install the application manually on Linux, check out the wiki: https://github.com/$(GHREPO)/wiki/Installation
+	@echo If you wish to install the application manually on Linux, check out the wiki: https://$(SOURCE_URL)/wiki/Installation
 	@echo -  Otherwise, build and install a package: make rpm -or- make deb
-	@echo See the Package Install wiki for more info: https://github.com/$(GHREPO)/wiki/Package-Install
+	@echo See the Package Install wiki for more info: https://$(SOURCE_URL)/wiki/Package-Install
 	@[ "$(shell uname)" = "Darwin" ] || (echo "Unable to continue, not a Mac." && false)
 	@[ "$(PREFIX)" != "" ] || (echo "Unable to continue, PREFIX not set. Use: make install PREFIX=/usr/local ETC=/usr/local/etc" && false)
 	@[ "$(ETC)" != "" ] || (echo "Unable to continue, ETC not set. Use: make install PREFIX=/usr/local ETC=/usr/local/etc" && false)
