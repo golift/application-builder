@@ -26,6 +26,11 @@ export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LIC
 # Provide a better URL if one exists.
 
 GHREPO="${GHUSER}/${BINARY}"
+# Used as go import path in builds.
+IMPORT_PATH="github.com/${GHREPO}"
+# Used for source links.
+SOURCE_URL="https://${IMPORT_PATH}"
+# Used for documentation links.
 URL="https://github.com/${GHREPO}"
 
 # This parameter is passed in as -X to go build. Used to override the Version variable in a package.
@@ -41,4 +46,7 @@ ITERATION=$(git rev-list --count --all || echo 0)
 DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 COMMIT="$(git rev-parse --short HEAD || echo 0)"
 
-export GHREPO URL VERSION_PATH VERSION ITERATION DATE COMMIT
+# Used by homebrew downloads.
+SOURCE_PATH=https://codeload.github.com/${GHREPO}/tar.gz/v${VERSION}
+
+export GHREPO IMPORT_PATH SOURCE_URL URL VERSION_PATH VVERSION VERSION ITERATION DATE COMMIT SOURCE_PATH
