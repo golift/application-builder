@@ -37,7 +37,7 @@ ARG VERSION
 ARG LICENSE=MIT
 ARG BINARY
 ARG IMPORT_PATH
-ARG SOURCE_PATH=http://github.com/golift/application-builder
+ARG SOURCE_URL=http://github.com/golift/application-builder
 ARG URL=http://github.com/golift/application-builder
 ARG DESC=application-builder
 ARG VENDOR=golift
@@ -47,19 +47,19 @@ ARG CONFIG_FILE=config.conf
 # Build-time metadata as defined at https://github.com/opencontainers/image-spec/blob/master/annotations.md
 LABEL org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.title="${BINARY}" \
-      org.opencontainers.image.documentation="${SOURCE_PATH/wiki/Docker" \
+      org.opencontainers.image.documentation="${SOURCE_URL}/wiki/Docker" \
       org.opencontainers.image.description="${DESC}" \
       org.opencontainers.image.url="${URL}" \
       org.opencontainers.image.revision="${COMMIT}" \
-      org.opencontainers.image.source="${SOURCE_PATH}" \
+      org.opencontainers.image.source="${SOURCE_URL}" \
       org.opencontainers.image.vendor="${VENDOR}" \
       org.opencontainers.image.authors="${AUTHOR}" \
       org.opencontainers.image.architecture="${OS} ${ARCH}" \
       org.opencontainers.image.licenses="${LICENSE}" \
       org.opencontainers.image.version="${VERSION}"
 
-COPY --from=builder /go/src/github.com/${GHREPO}/${BINARY}.${ARCH}.${OS} /image
-COPY --from=builder /go/src/github.com/${GHREPO}/examples/${CONFIG_FILE}.example /etc/${BINARY}/${CONFIG_FILE}
+COPY --from=builder /go/src/${IMPORT_PATH}/${BINARY}.${ARCH}.${OS} /image
+COPY --from=builder /go/src/${IMPORT_PATH}/examples/${CONFIG_FILE}.example /etc/${BINARY}/${CONFIG_FILE}
 
 VOLUME [ "/etc/${BINARY}" ]
 ENTRYPOINT [ "/image" ]

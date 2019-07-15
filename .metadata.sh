@@ -26,7 +26,7 @@ export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LIC
 # Provide a better URL if one exists.
 
 GHREPO="${GHUSER}/${BINARY}"
-# Used as go import path in builds.
+# Used as go import path in docker and homebrew builds.
 IMPORT_PATH="github.com/${GHREPO}"
 # Used for source links.
 SOURCE_URL="https://${IMPORT_PATH}"
