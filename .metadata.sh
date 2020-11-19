@@ -19,23 +19,24 @@ LICENSE="MIT"
 # This affects the homebrew formula (launchd) and linux packages (systemd).
 FORMULA="service"
 
-export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LICENSE FORMULA
+# Defines docker manifest/build types.
+BUILDS="linux:armhf:arm linux:arm64:arm64 linux:amd64:amd64 linux:i386:386"
+
+export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LICENSE FORMULA BUILDS
 
 # The rest is mostly automatic.
 # Fix the repo if it doesn't match the binary name.
 # Provide a better URL if one exists.
 
-# Used as go import path in docker and homebrew builds.
-IMPORT_PATH="github.com/${GHUSER}/${BINARY}"
 # Used for source links and wiki links.
-SOURCE_URL="https://${IMPORT_PATH}"
+SOURCE_URL="https://github.com/${GHUSER}/${BINARY}"
 # Used for documentation links.
-URL="https://github.com/${GHUSER}/${BINARY}"
+URL="${SOURCE_URL}"
 
 # This parameter is passed in as -X to go build. Used to override the Version variable in a package.
 # This makes a path like github.com/user/hello-world/helloworld.Version=1.3.3
 # Name the Version-containing library the same as the github repo, without dashes.
-VERSION_PATH="${IMPORT_PATH}/$(echo ${BINARY} | tr -d -- -).Version"
+VERSION_PATH="golift.io/version"
 
 # Dynamic. Recommend not changing.
 VVERSION=$(git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1))
@@ -45,7 +46,10 @@ ITERATION=$(git rev-list --count --all || echo 0)
 DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 COMMIT="$(git rev-parse --short HEAD || echo 0)"
 
-# Used by homebrew downloads.
-SOURCE_PATH=https://codeload.${IMPORT_PATH}/tar.gz/v${VERSION}
+GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD || echo unknown)"
+BRANCH="${TRAVIS_BRANCH:-${GIT_BRANCH}}"
 
-export IMPORT_PATH SOURCE_URL URL VERSION_PATH VVERSION VERSION ITERATION DATE COMMIT SOURCE_PATH
+# Used by homebrew downloads.
+SOURCE_PATH=https://codeload.github.com/${GHUSER}/${BINARY}/tar.gz/v${VERSION}
+
+export SOURCE_URL URL VERSION_PATH VVERSION VERSION ITERATION DATE BRANCH COMMIT SOURCE_PATH
