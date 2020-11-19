@@ -24,8 +24,8 @@ If you want to push homebrew formula, you'll need to make another repo for your 
 Mine is named `golift/homebrew-mugs`. The `mugs` part can be any word you want, `formula` is normal, I'm just weird.
 -   Add an SSH key to your homebrew repo.
     -   [Example](https://github.com/alrra/travis-scripts/blob/master/docs/github-deploy-keys.md), except don't encrypt the key yet.
-    -   Make a tar file with your key. `tar -cf .secret-files.tar github_deploy_key` and encrypt this.
-    -   `travis encrypt-file .secret-files.tar` and `git add .secret-files.tar.env`
+    -   Make a tar file with your key. `tar -cf .secret_files.tar github_deploy_key` and encrypt this.
+    -   `travis encrypt-file .secret_files.tar` and `git add .secret_files.tar.enc`
     -   Update `.travis.yml` with the `$encrypted_XXXXXXXXXXXX_key` and `$encrypted_XXXXXXXXXXXX_iv` values printed by `travis encrypt-file .secret-files.tar`.
     -   Using a tar file in case you want to add more secure files later. Travis only supports one encrypted file per repo.
     -   The included [.travis.yml](.travis.yml) file will extract the tar file and use the github_deploy_key file automatically.
