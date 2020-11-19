@@ -4,6 +4,7 @@
 
 # Must match the repo name to make things easy. Otherwise, fix some other paths.
 BINARY="hello-world"
+REPO="application-builder"
 # github username
 GHUSER="golift"
 # Github repo containing homebrew formula repo.
@@ -29,7 +30,7 @@ export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LIC
 # Provide a better URL if one exists.
 
 # Used for source links and wiki links.
-SOURCE_URL="https://github.com/${GHUSER}/${BINARY}"
+SOURCE_URL="https://github.com/${GHUSER}/${REPO}"
 # Used for documentation links.
 URL="${SOURCE_URL}"
 
@@ -50,6 +51,6 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD || echo unknown)"
 BRANCH="${TRAVIS_BRANCH:-${GIT_BRANCH}}"
 
 # Used by homebrew downloads.
-SOURCE_PATH=https://codeload.github.com/${GHUSER}/${BINARY}/tar.gz/v${VERSION}
+SOURCE_PATH=https://codeload.github.com/${GHUSER}/${REPO}/tar.gz/v${VERSION}
 
 export SOURCE_URL URL VERSION_PATH VVERSION VERSION ITERATION DATE BRANCH COMMIT SOURCE_PATH
