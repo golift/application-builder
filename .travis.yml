@@ -9,6 +9,8 @@ addons:
   apt:
     packages:
     - ruby-dev
+    - ruby
+    - rubygems
     - rpm
     - build-essential
     - git
