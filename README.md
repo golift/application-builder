@@ -55,6 +55,7 @@ A wiki will later be added explaining how to add your bitly API Token.
 Examples
 ---
 These repos use this template.
--   [https://github.com/davidnewhall/unifi-poller](https://github.com/davidnewhall/unifi-poller)
+-   [https://github.com/unifi-poller/unifi-poller](https://github.com/unifi-poller/unifi-poller)
 -   [https://github.com/davidnewhall/secspy](https://github.com/davidnewhall/secspy)
--   [https://github.com/davidnewhall/unpacker-poller](https://github.com/davidnewhall/unpacker-poller)
+-   [https://github.com/davidnewhall/unpackerr](https://github.com/davidnewhall/unpackerr)
+-   [https://github.com/golift/turbovanityurls](https://github.com/golift/turbovanityurls)
