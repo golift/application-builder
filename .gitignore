@@ -28,7 +28,7 @@ README
 README.html
 /*_manual.html
 /homebrew-mugs
-.secret-files.tar
+.secret*files.tar
 github_deploy_key*
 .metadata.make
 /after-install-rendered.sh
