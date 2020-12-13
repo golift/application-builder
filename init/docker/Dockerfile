@@ -14,7 +14,6 @@ FROM golang:stretch as builder
 ARG ARCH
 ARG OS
 ARG BINARY
-ARG IMPORT_PATH
 
 RUN mkdir -p $GOPATH/pkg/mod $GOPATH/bin $GOPATH/src /${BINARY}
 COPY . /${BINARY}
