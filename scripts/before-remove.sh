@@ -9,6 +9,6 @@ if [ "$1" = "upgrade" ] || [ "$1" = "1" ] ; then
 fi
 
 if [ -x "/bin/systemctl" ]; then
-  /bin/systemctl stop hello-world
-  /bin/systemctl disable hello-world
+  /bin/systemctl stop {{BINARY}}
+  /bin/systemctl disable {{BINARY}}
 fi

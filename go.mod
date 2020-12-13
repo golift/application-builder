@@ -1,4 +1,4 @@
-module golift.io/application-builder
+module github.com/golift/application-builder
 
 go 1.15
 

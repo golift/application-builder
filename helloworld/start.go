@@ -57,7 +57,7 @@ func Start() error {
 	hw.ParseFlags(os.Args[1:])
 
 	if hw.VersionReq {
-		fmt.Printf("%s v%s\n", Binary, version.Version)
+		fmt.Println(version.Print(Binary))
 
 		return nil // don't run anything else w/ version request.
 	}

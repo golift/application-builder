@@ -4,7 +4,7 @@ import (
 	"log"
 
 	// This path doesn't match the repo name. Use the correct name locally.
-	"golift.io/application-builder/helloworld"
+	"github.com/golift/application-builder/helloworld"
 )
 
 // Keep it simple.

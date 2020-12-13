@@ -1,6 +1,10 @@
+# Application Builder Configuration File. Customized for: hello-world
 # Each line must have an export clause.
 # This file is parsed and sourced by the Makefile, Docker and Homebrew builds.
 # Powered by Application Builder: https://github.com/golift/application-builder
+
+# Bring in dynamic repo/pull/source info.
+source $(dirname "${BASH_SOURCE[0]}")/init/buildinfo.sh
 
 # Must match the repo name to make things easy. Otherwise, fix some other paths.
 BINARY="hello-world"
@@ -20,15 +24,6 @@ LICENSE="MIT"
 # This affects the homebrew formula (launchd) and linux packages (systemd).
 FORMULA="service"
 
-# Defines docker manifest/build types.
-BUILDS="linux:armhf:arm linux:arm64:arm64 linux:amd64:amd64 linux:i386:386"
-
-export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE LICENSE FORMULA BUILDS
-
-# The rest is mostly automatic.
-# Fix the repo if it doesn't match the binary name.
-# Provide a better URL if one exists.
-
 # Used for source links and wiki links.
 SOURCE_URL="https://github.com/${GHUSER}/${REPO}"
 # Used for documentation links.
@@ -39,18 +34,8 @@ URL="${SOURCE_URL}"
 # Name the Version-containing library the same as the github repo, without dashes.
 VERSION_PATH="golift.io/version"
 
-# Dynamic. Recommend not changing.
-VVERSION=$(git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1))
-VERSION="$(echo $VVERSION | tr -d v | grep -E '^\S+$' || echo development)"
-# This produces a 0 in some envirnoments (like Homebrew), but it's only used for packages.
-ITERATION=$(git rev-list --count --all || echo 0)
-DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-COMMIT="$(git rev-parse --short HEAD || echo 0)"
-
-GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD || echo unknown)"
-BRANCH="${TRAVIS_BRANCH:-${GIT_BRANCH}}"
-
 # Used by homebrew downloads.
 SOURCE_PATH=https://codeload.github.com/${GHUSER}/${REPO}/tar.gz/v${VERSION}
 
-export SOURCE_URL URL VERSION_PATH VVERSION VERSION ITERATION DATE BRANCH COMMIT SOURCE_PATH
+export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE
+export LICENSE FORMULA SOURCE_URL URL VERSION_PATH SOURCE_PATH

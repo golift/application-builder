@@ -1,36 +1,35 @@
-# In case you copy a config in locally.
-/hello-world.conf
-
-# These are all built by the Makefile.
-# Binaries, Packages, Formula, Manual
+# Change this line.
 /hello-world
-/hello-world*.gz
-/hello-world*.zip
-/hello-world*.1
-/hello-world*.deb
-/hello-world*.rpm
-/hello-world.*.arm
-/hello-world.exe
-/hello-world.*.macos
-/hello-world.*.linux
-/hello-world.rb
 
-# Random things the Makefile creates.
+# The rest is probably fine.
+/rsrc.syso
+/*.conf
+/*.gz
+/*.zip
+/unpackerr*.1
+/*.deb
+/*.rpm
+/*.txz
+/*.*.arm
+/*.*.exe
+/.*.macos
+/*.*.linux
+/*.*.freebsd
+/*.rb
 *.sha256
 /vendor
+.DS_Store
+*~
 /package_build_*
 /release
 MANUAL
 MANUAL.html
 README
 README.html
-/hello-world_manual.html
-/homebrew_release_repo
-/.metadata.make
-/.secret_files.tar
-/bitly_token
-/github_deploy_key
-
-# extra junk
-.DS_Store
-*~
+/*_manual.html
+/homebrew-mugs
+.secret-files.tar
+github_deploy_key*
+.metadata.make
+/after-install-rendered.sh
+/before-remove-rendered.sh
