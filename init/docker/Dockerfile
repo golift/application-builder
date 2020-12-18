@@ -19,7 +19,8 @@ RUN mkdir -p $GOPATH/pkg/mod $GOPATH/bin $GOPATH/src /${BINARY}
 COPY . /${BINARY}
 WORKDIR /${BINARY}
 
-RUN apt install -y upx && \
+RUN apt update && \
+    apt install -y upx && \
     CGO_ENABLED=0 make ${BINARY}.${ARCH}.${OS}
 
 FROM scratch
