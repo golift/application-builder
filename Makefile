@@ -151,10 +151,12 @@ $(BINARY).amd64.freebsd: main.go
 freebsd386: $(BINARY).i386.freebsd
 $(BINARY).i386.freebsd: main.go
 	GOOS=freebsd GOARCH=386 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 freebsdarm: $(BINARY).armhf.freebsd
 $(BINARY).armhf.freebsd: main.go
 	GOOS=freebsd GOARCH=arm go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 exe: $(BINARY).amd64.exe
 windows: $(BINARY).amd64.exe
