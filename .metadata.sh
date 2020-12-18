@@ -37,5 +37,8 @@ VERSION_PATH="golift.io/version"
 # Used by homebrew downloads.
 SOURCE_PATH=https://codeload.github.com/${GHUSER}/${REPO}/tar.gz/v${VERSION}
 
+# Use upx to compress binaries. Must install upx. apt/yum/brew install upx
+COMPRESS=true
+
 export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE
-export LICENSE FORMULA SOURCE_URL URL VERSION_PATH SOURCE_PATH
+export LICENSE FORMULA SOURCE_URL URL VERSION_PATH SOURCE_PATH COMPRESS

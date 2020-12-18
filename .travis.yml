@@ -17,6 +17,7 @@ addons:
     - debsigs
 #    - gnupg
     - expect
+    - upx
 go:
   - 1.15.x
 services:

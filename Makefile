@@ -110,16 +110,19 @@ $(shell go env GOPATH)/bin/rsrc:
 build: $(BINARY)
 $(BINARY): main.go
 	go build -o $(BINARY) -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 linux: $(BINARY).amd64.linux
 $(BINARY).amd64.linux: main.go
 	# Building linux 64-bit x86 binary.
 	GOOS=linux GOARCH=amd64 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 linux386: $(BINARY).i386.linux
 $(BINARY).i386.linux: main.go
 	# Building linux 32-bit x86 binary.
 	GOOS=linux GOARCH=386 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 arm: arm64 armhf
 
@@ -127,34 +130,41 @@ arm64: $(BINARY).arm64.linux
 $(BINARY).arm64.linux: main.go
 	# Building linux 64-bit ARM binary.
 	GOOS=linux GOARCH=arm64 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 armhf: $(BINARY).armhf.linux
 $(BINARY).armhf.linux: main.go
 	# Building linux 32-bit ARM binary.
 	GOOS=linux GOARCH=arm GOARM=6 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 macos: $(BINARY).amd64.macos
 $(BINARY).amd64.macos: main.go
 	# Building darwin 64-bit x86 binary.
 	GOOS=darwin GOARCH=amd64 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 freebsd: $(BINARY).amd64.freebsd
 $(BINARY).amd64.freebsd: main.go
 	GOOS=freebsd GOARCH=amd64 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 freebsd386: $(BINARY).i386.freebsd
 $(BINARY).i386.freebsd: main.go
 	GOOS=freebsd GOARCH=386 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 freebsdarm: $(BINARY).armhf.freebsd
 $(BINARY).armhf.freebsd: main.go
 	GOOS=freebsd GOARCH=arm go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 exe: $(BINARY).amd64.exe
 windows: $(BINARY).amd64.exe
 $(BINARY).amd64.exe: rsrc.syso main.go
 	# Building windows 64-bit x86 binary.
 	GOOS=windows GOARCH=amd64 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 # Packages
 
