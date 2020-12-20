@@ -130,7 +130,7 @@ arm64: $(BINARY).arm64.linux
 $(BINARY).arm64.linux: main.go
 	# Building linux 64-bit ARM binary.
 	GOOS=linux GOARCH=arm64 go build -o $@ -ldflags "-w -s $(VERSION_LDFLAGS)"
-	[ "$(COMPRESS)" != "true" ] || upx -q9 $@ || true
+	[ "$(COMPRESS)" != "true" ] || upx -q9 $@
 
 armhf: $(BINARY).armhf.linux
 $(BINARY).armhf.linux: main.go
