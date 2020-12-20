@@ -4,7 +4,7 @@
 ##########
 
 # Dynamic. Recommend not changing.
-VVERSION=$(git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+VVERSION=$(git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1) 2>/dev/null)
 VERSION="$(echo $VVERSION | tr -d v | grep -E '^\S+$' || echo development)"
 # This produces a 0 in some envirnoments (like Homebrew), but it's only used for packages.
 ITERATION=$(git rev-list --count --all || echo 0)
