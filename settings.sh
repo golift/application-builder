@@ -8,13 +8,10 @@ source $(dirname "${BASH_SOURCE[0]}")/init/buildinfo.sh
 
 # Must match the repo name to make things easy. Otherwise, fix some other paths.
 BINARY="hello-world"
-REPO="application-builder"
-# github username
-GHUSER="golift"
+REPO="golift/application-builder"
 # Github repo containing homebrew formula repo.
 HBREPO="golift/homebrew-mugs"
 MAINT="David Newhall II <david at sleepers dot pro>"
-VENDOR="Go Lift"
 DESC="Example Service for GoLift Application Builder"
 GOLANGCI_LINT_ARGS="--enable-all -D gochecknoglobals"
 # Example must exist at examples/$CONFIG_FILE.example
@@ -25,9 +22,7 @@ LICENSE="MIT"
 FORMULA="service"
 
 # Used for source links and wiki links.
-SOURCE_URL="https://github.com/${GHUSER}/${REPO}"
-# Used for documentation links.
-URL="${SOURCE_URL}"
+SOURCE_URL="https://github.com/${REPO}"
 
 # This parameter is passed in as -X to go build. Used to override the Version variable in a package.
 # This makes a path like golift.io/version.Version=1.3.3
@@ -37,8 +32,15 @@ VERSION_PATH="golift.io/version"
 # Used by homebrew downloads.
 SOURCE_PATH=https://codeload.github.com/${GHUSER}/${REPO}/tar.gz/v${VERSION}
 
-# Use upx to compress binaries. Must install upx. apt/yum/brew install upx
-COMPRESS=true
+export BINARY HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE
+export LICENSE FORMULA SOURCE_URL VERSION_PATH SOURCE_PATH
 
-export BINARY GHUSER HBREPO MAINT VENDOR DESC GOLANGCI_LINT_ARGS CONFIG_FILE
-export LICENSE FORMULA SOURCE_URL URL VERSION_PATH SOURCE_PATH COMPRESS
+### Optional ###
+
+# Import this signing key only if it's in the keyring.
+gpg --list-keys 2>/dev/null | grep -q B93DD66EF98E54E2EAE025BA0166AD34ABC5A57C
+[ "$?" != "0" ] || export SIGNING_KEY=B93DD66EF98E54E2EAE025BA0166AD34ABC5A57C
+
+export WINDOWS_LDFLAGS=""
+export MACAPP=""
+export EXTRA_FPM_FLAGS=""

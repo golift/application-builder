@@ -5,7 +5,7 @@
 # https://github.com/golift/application-builder
 
 pushd ../..
-source .metadata.sh
+source settings.sh
 popd
 
 if [ "$BUILDS" != "" ]; then
@@ -24,7 +24,7 @@ for build in $BUILDS; do
 done
 echo "Annotating Images: ${IMAGES}"
 
-# Build all the Docker tags if the source branch is a release and not a branch.
+# Build all the Docker tags if the source branch is a release and not a branch or pre-release.
 if [ "v$VERSION" = "$SOURCE_BRANCH" ]; then
   TAGS="$VERSION"
 

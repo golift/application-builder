@@ -1,12 +1,14 @@
 # Change this line.
 /hello-world
-
+/init/macos/*.app/Contents/MacOS/*
 # The rest is probably fine.
 /rsrc*.syso
+/*.log
 /*.conf
 /*.gz
 /*.zip
-/unpackerr*.1
+/*.upx
+/*.1
 /*.deb
 /*.rpm
 /*.txz
@@ -16,6 +18,8 @@
 /*.*.linux
 /*.*.freebsd
 /*.rb
+/*.upx
+/*.app
 *.sha256
 /vendor
 .DS_Store
@@ -33,3 +37,4 @@ github_deploy_key*
 .metadata.make
 /after-install-rendered.sh
 /before-remove-rendered.sh
+/gpg.signing.key
