@@ -48,9 +48,8 @@ const (
 // Parses flags, parses config and executes Run().
 func Start() error {
 	hw := &HelloWorld{
-		Config: &Config{},
-		Flags:  &Flags{},
-		Flag:   flag.NewFlagSet(Binary, flag.ExitOnError),
+		Flags: &Flags{VersionReq: false, ConfigFile: defaultConfFile},
+		Flag:  flag.NewFlagSet(Binary, flag.ExitOnError),
 	}
 
 	log.SetFlags(log.LstdFlags)
@@ -95,18 +94,26 @@ func (u *HelloWorld) GetConfig() error {
 
 	log.Printf("Loading Configuration File: %s", u.ConfigFile)
 
-	switch buf, err := ioutil.ReadFile(u.ConfigFile); {
+	buf, err := ioutil.ReadFile(u.ConfigFile)
+
+	switch {
 	case err != nil:
 		return fmt.Errorf("ioutil.ReadFile: %w", err)
 	case strings.Contains(u.ConfigFile, ".json"):
-		return json.Unmarshal(buf, u.Config)
+		err = json.Unmarshal(buf, u.Config)
 	case strings.Contains(u.ConfigFile, ".xml"):
-		return xml.Unmarshal(buf, u.Config)
+		err = xml.Unmarshal(buf, u.Config)
 	case strings.Contains(u.ConfigFile, ".yaml"):
-		return yaml.Unmarshal(buf, u.Config)
+		err = yaml.Unmarshal(buf, u.Config)
 	default:
-		return toml.Unmarshal(buf, u.Config)
+		err = toml.Unmarshal(buf, u.Config)
 	}
+
+	if err != nil {
+		return fmt.Errorf("unmarshalling: %w", err)
+	}
+
+	return nil
 }
 
 // Run starts doing things.

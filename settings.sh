@@ -13,7 +13,7 @@ REPO="golift/application-builder"
 HBREPO="golift/homebrew-mugs"
 MAINT="David Newhall II <david at sleepers dot pro>"
 DESC="Example Service for GoLift Application Builder"
-GOLANGCI_LINT_ARGS="--enable-all -D gochecknoglobals"
+GOLANGCI_LINT_ARGS="--enable-all -D gochecknoglobals,forbidigo,exhaustivestruct"
 # Example must exist at examples/$CONFIG_FILE.example
 CONFIG_FILE="helloworld.conf"
 LICENSE="MIT"
