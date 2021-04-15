@@ -81,6 +81,7 @@ deploy:
     local-dir: release
     package_glob: "*.deb"
     cleanup: false
+    skip_cleanup: true
     on:
       tags: true
       condition: "$TRAVIS_OS_NAME = linux"
@@ -93,6 +94,7 @@ deploy:
     local-dir: release
     package_glob: "*.rpm"
     cleanup: false
+    skip_cleanup: true
     on:
       tags: true
       condition: "$TRAVIS_OS_NAME = linux"
@@ -102,6 +104,7 @@ deploy:
       secure: Qrlk91OPyUVgX2DqBGNlKGg2gaXzbwD9gVL0EfG0PPGa9C4ygNL20SYwoLLT9/LNhNrfT2tTel4zRYMXGw0X0VPytPbmCJltmD4+xoSh2qWRk/9uzEZIZrox77z3w4TlfjGCZSrvlCCAIttzvUv5ecFFgMaZboc6IG1IwJoL5aVf+45TzIMH0Tr2lfNmmX6o4Py/Ox/MvfBZMppYzqRSAS12Rbz60+MEYTIvGU6x9MnPyzq1icyD1RaAPirqUkofj82Y7j9Wzf3TDXNWMc7KL/UpA4ApU1sQL1s1emIZBhbP6xkO8uugptF/8vnHhGrC/qCEqjn53CwyIQO51xtPh+ibL+/C1c41NvnQwcHzJ/LIipHaKHqtOda6DARz1hpAfGGlSmWliTDGdaR34a/rkke+1saH+phI/u16AlgLKw4eCvLByILm/p+sOw4zluFNsJ6chfagBBZ2v7jIjJ4PBhv3koF0qQOeF5ne8JruGwDPYTz5S2w8BaahQi4fEEvjRusUxCWZekJBze4Ze6P5vVfzMMBbMAi8JG0UOu5V1Vf9MY39sofp3smTnmCcajYMPzpdHK7s7nYFF+/8597uJZDW1MVJ0Uge1EVbFebAUkBHLmwL6DUm7Ggo2kk+KPbCfipu18uutRP5aZVqfNSWQESzA9s65Sn07fujXxrQ4os=
     overwrite: true
     cleanup: false
+    skip_cleanup: true
     file_glob: true
     file: release/*
     on:
