@@ -37,6 +37,13 @@ Docker
 If you want to support Docker Builds, create a new Docker Repo, and link it to your new
 Github Repo. Use [this example](https://github.com/golift/application-builder/tree/master/init/docker/hooks) to setup your build in Docker Cloud. Pretty simple, just add the Tag Auto Build and ENV variables.
 
+Linux
+---
+
+Supports uploading to packagecloud! This makes providing your packages to Linux users extremely easy.
+
+<a href="https://packagecloud.io"><img src="https://packagecloud.io/images/packagecloud-badge.png" /></a>
+
 Next
 ---
 1.  Add your Go code, or start hacking on hello-world; it contains quite a bit of boilerplate to get you started.
