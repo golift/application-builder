@@ -44,6 +44,15 @@ Supports uploading to packagecloud! This makes providing your packages to Linux 
 
 <a href="https://packagecloud.io"><img src="https://packagecloud.io/images/packagecloud-badge.png" /></a>
 
+To make this work, go to packagecloud.io and copy your API key. Head to terminal and run:
+
+```shell
+travis encrypt PACKAGECLOUD-API-KEY
+```
+
+That prints out a really long `secure` line.
+Copy and paste that into [.travis.yml](.travis.yml) twice, once for each package type (`rpm` and `deb`).
+
 Next
 ---
 1.  Add your Go code, or start hacking on hello-world; it contains quite a bit of boilerplate to get you started.
